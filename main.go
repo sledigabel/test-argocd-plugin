@@ -26,8 +26,9 @@ metadata:
   name: container-cm
 data: 
   image: {{.Image}}:{{.Tag}}
-  comment:|
+  comment: |
     {{.Comment}}
+
 `
 	t, err := template.New("text").Parse(text)
 	if err != nil {
