@@ -1,0 +1,10 @@
+---
+data:
+  configManagementPlugins: |
+    - name: tomlrocks
+      init:
+        command: ["sh", "-xc"]
+        args: ["/home/argocd/tomlrocks"]
+      generate:
+        command: ["sh", "-xc"]
+        args: ["/home/argocd/tomlrocks"]
