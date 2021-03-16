@@ -34,4 +34,4 @@ done
 argocd login --insecure --username admin --password ${container_id} ${service_url##*/}
 open ${service_url}
 
-argocd app create testapp --config-management-plugin tomlrocks --repo https://github.com/sledigabel/test-argocd-plugin.git --dest-namespace default --dest-server  https://kubernetes.default.svc
+argocd app create testapp --config-management-plugin tomlrocks --repo https://github.com/sledigabel/test-argocd-plugin.git --dest-namespace default --dest-server  https://kubernetes.default.svc --path path

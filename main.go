@@ -25,7 +25,7 @@ func render(c Container) {
 		Iter int64
 		Container
 	}
-	text := `--
+	text := `---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -36,6 +36,7 @@ data:
     {{.Comment}}
 
 `
+
 	t, err := template.New("text").Parse(text)
 	if err != nil {
 		panic(err)
