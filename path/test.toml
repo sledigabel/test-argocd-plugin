@@ -2,3 +2,4 @@
 image = "sledigabel/http-pycow"
 tag = "latest"
 comment = "this is how it all started"
+how_many_times = 5

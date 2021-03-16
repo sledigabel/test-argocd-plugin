@@ -14,16 +14,22 @@ import (
 )
 
 type Container struct {
-	Image   string
-	Tag     string
-	Comment string
+	Image        string
+	Tag          string
+	Comment      string
+	HowManyTimes int64
 }
 
 func render(c Container) {
-	text := `apiVersion: v1
+	type Itercontainer struct {
+		Iter int64
+		Container
+	}
+	text := `--
+apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: container-cm
+  name: container-cm-{{.Iter}}
 data: 
   image: {{.Image}}:{{.Tag}}
   comment: |
@@ -35,7 +41,20 @@ data:
 		panic(err)
 	}
 
-	t.Execute(os.Stdout, c)
+	var i int64
+	for i = 0; i < c.HowManyTimes; i++ {
+		iterc := Itercontainer{
+			Iter: i,
+			Container: Container{
+				Image:   c.Image,
+				Tag:     c.Tag,
+				Comment: c.Comment,
+			},
+		}
+
+		t.Execute(os.Stdout, iterc)
+
+	}
 
 }
 
@@ -64,9 +83,10 @@ func main() {
 	}
 
 	cont := Container{
-		Image:   tree.Get("container.image").(string),
-		Tag:     tree.Get("container.tag").(string),
-		Comment: tree.Get("container.comment").(string),
+		Image:        tree.Get("container.image").(string),
+		Tag:          tree.Get("container.tag").(string),
+		Comment:      tree.Get("container.comment").(string),
+		HowManyTimes: tree.Get("container.how_many_times").(int64),
 	}
 
 	render(cont)
