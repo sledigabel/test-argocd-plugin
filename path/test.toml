@@ -1,5 +1,5 @@
 [container]
 image = "sledigabel/http-pycow"
-tag = "latest"
+tag = "demo"
 comment = "this is how it all started, and it will go on and on..."
 how_many_times = 5
