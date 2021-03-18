@@ -16,6 +16,7 @@ kubectl patch --context ${CLUSTERNAME} svc argocd-server -n argocd -p '{"spec": 
 GOOS=linux GOARCH=amd64 go build -o yamlrocks main.go
 
 kubectl wait --timeout=10m -n argocd --for=condition=available deployment/argocd-server
+kubectl wait --timeout=10m -n argocd --for=condition=available deployment/argocd-repo-server
 container_id=`kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o jsonpath='{.items..metadata.name}'`
 repo_id=`kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-repo-server -o jsonpath='{.items..metadata.name}'`
 kubectl cp ./yamlrocks argocd/${repo_id}:yamlrocks
@@ -34,4 +35,4 @@ done
 argocd login --insecure --username admin --password ${container_id} ${service_url##*/}
 open ${service_url}
 
-argocd app create testapp --config-management-plugin yamlrocks --repo https://github.com/sledigabel/test-argocd-plugin.git --dest-namespace default --dest-server  https://kubernetes.default.svc --path path2 --sync-option Prune=True
+argocd app create testapp --config-management-plugin yamlrocks --repo https://github.com/sledigabel/test-argocd-plugin.git --dest-namespace default --dest-server  https://kubernetes.default.svc --path path2 --sync-option !Prune=False
