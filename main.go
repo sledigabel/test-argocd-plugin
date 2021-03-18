@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
 	"os"
 	"text/template"
 
@@ -92,7 +92,6 @@ func main() {
 
 	cont := Container{}
 	yaml.Unmarshal(data, &cont)
-	fmt.Println(cont)
 
 	render(cont)
 

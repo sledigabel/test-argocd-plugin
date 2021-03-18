@@ -1,10 +1,10 @@
 ---
 data:
   configManagementPlugins: |
-    - name: tomlrocks
+    - name: yamlrocks
       init:
         command: ["sh", "-xc"]
-        args: ["/home/argocd/tomlrocks"]
+        args: ["/home/argocd/yamlrocks"]
       generate:
         command: ["sh", "-xc"]
-        args: ["/home/argocd/tomlrocks"]
+        args: ["/home/argocd/yamlrocks"]
