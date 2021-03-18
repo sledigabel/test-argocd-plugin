@@ -1,23 +1,23 @@
 package main
 
 import (
-	// "fmt"
+	"fmt"
 	"os"
 	"text/template"
 
 	// "github.com/pelletier/go-toml"
+	"gopkg.in/yaml.v2"
 	"io/fs"
 	"io/ioutil"
 	"strings"
-
-	"github.com/pelletier/go-toml"
+	// "github.com/pelletier/go-toml"
 )
 
 type Container struct {
-	Image        string
-	Tag          string
-	Comment      string
-	HowManyTimes int64
+	Image        string `yaml:"image"`
+	Tag          string `yaml:"tag"`
+	Comment      string `yaml:"comment"`
+	HowManyTimes int64  `yaml:"how_many_times"`
 }
 
 func render(c Container) {
@@ -62,33 +62,37 @@ data:
 func main() {
 	// fmt.Println("vim-go")
 	files, _ := ioutil.ReadDir(".")
-	tomlFiles := make([]fs.FileInfo, 0)
+	yamlFiles := make([]fs.FileInfo, 0)
 	for _, f := range files {
-		if strings.HasSuffix(f.Name(), "toml") {
-			tomlFiles = append(tomlFiles, f)
+		if strings.HasSuffix(f.Name(), "yaml") {
+			yamlFiles = append(yamlFiles, f)
 		}
 	}
-	if len(tomlFiles) != 1 {
-		panic("There should be one file ending with the toml extension")
+	if len(yamlFiles) != 1 {
+		panic("There should be one file ending with the yaml extension")
 	}
 
 	// reading the file
-	data, err := ioutil.ReadFile(tomlFiles[0].Name())
+	data, err := ioutil.ReadFile(yamlFiles[0].Name())
 	if err != nil {
 		panic("could not open file")
 	}
 
-	tree, err := toml.Load(string(data))
-	if err != nil {
-		panic(err)
-	}
+	// tree, err := toml.Load(string(data))
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	cont := Container{
-		Image:        tree.Get("container.image").(string),
-		Tag:          tree.Get("container.tag").(string),
-		Comment:      tree.Get("container.comment").(string),
-		HowManyTimes: tree.Get("container.how_many_times").(int64),
-	}
+	// cont := Container{
+	// 	Image:        tree.Get("container.image").(string),
+	// 	Tag:          tree.Get("container.tag").(string),
+	// 	Comment:      tree.Get("container.comment").(string),
+	// 	HowManyTimes: tree.Get("container.how_many_times").(int64),
+	// }
+
+	cont := Container{}
+	yaml.Unmarshal(data, &cont)
+	fmt.Println(cont)
 
 	render(cont)
 
