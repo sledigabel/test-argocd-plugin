@@ -3,4 +3,4 @@ image: sledigabel/http-pycow
 tag: latest
 comment: | 
   blahblahblah
-how_many_times: 4
+how_many_times: 6
